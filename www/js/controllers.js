@@ -30,47 +30,29 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
         });
     };	
    
-   $scope.usuario = $firebaseArray(ref);
-    var fbAuth = ref.getAuth();
+   //$scope.usuario = $firebaseArray(ref);
+    //var fbAuth = ref.getAuth();
+
+    var usersRef = ref.child("usuarios");
    $scope.addUsuario = function(){       
        $scope.imagem = ($scope.imgURI !==null) ? $scope.imgURI : null;    
        console.log("adicionando contato");
-       $scope.usuario.$add(
+      var usuarioRef =  usersRef.child($scope.email);
+       usuarioRef.set(
            {email: $scope.email,
            senha: $scope.senha,
            apelido: $scope.apelido,
-           descricao: $scope.descricao,
-           foto: $scope.imagem
-        }).then(function(){
-           var id = ref.key();
-           console.log("adicionado contato "+ fbAuth.uid);
-           $scope.email = "";
-           $scope.senha = "";
-           $scope.apelido = "";
-           $scope.descricao = "";
-           $scope.foto = null;
-       });
+           descricao: $scope.descricao
+        }, onComplete);
    };
-    
-    $scope.takePhoto = function () {
-          var options = {
-                quality: 75,
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                allowEdit: true,
-                encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 300,
-                targetHeight: 300,
-                popoverOptions: CameraPopoverOptions,
-                saveToPhotoAlbum: false
-            };
 
-            $cordovaCamera.getPicture(options).then(function (imageData) {
-                $scope.imgURI = "data:image/jpeg;base64," + imageData;
-            }, function (err) {
-                consule.log(erro);
-            });
-    };
+   var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+      } else {
+        console.log('Synchronization succeeded');
+      }
+  };
 
 })
 
@@ -98,9 +80,16 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
    
 .controller('encontroCtrl', function($scope, fb, $firebaseArray) {    
     $scope.dados = $firebaseArray(fb.gerar());
+
+     $scope.detalhar = function(perfil){
+       $scope.email = perfil.email;
+       $scope.teste = perfil.senha;
+    };
+    //$scope.dados.
 })
 
 .controller('perfilCtrl', function($scope) {
+ 
 
 });
     

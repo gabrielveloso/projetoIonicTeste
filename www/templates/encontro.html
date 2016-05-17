@@ -4,21 +4,21 @@
               
         </ion-list>
         <div ng-repeat="dado in dados">
-            <div class="row" ng-if="$even">
-                <div class="col" >
-                   <a class="item item-avatar"  href="#">
+            <div class="row" ng-if="$even">              
+                <div class="col" class="card">
+                   <a class="item item-avatar"  href="#/menu/perfil" ng-click="detalhar(dado)">
                    <img src="{{dados[$index].foto}}">
                    <h2>{{dados[$index].apelido}}</h2>
                    <p>{{dados[$index].descricao}}</p>
-                   <p>{{dados[$index].senha}}</p>
+                   <p>Valor/Hora: {{dados[$index].senha}}</p>
                    </a>
                 </div>
                 <div class="col" >
-                   <a class="item item-avatar"  href="#">
+                   <a class="item item-avatar"  href="#" >
                    <img src="{{dados[$index+1].foto}}">
                    <h2>{{dados[$index+1].apelido}}</h2>
                    <p>{{dados[$index+1].descricao}}</p>
-                   <p>{{dados[$index+1].senha}}</p>
+                   <p>Valor/Hora: {{dados[$index+1].senha}}</p>
                    </a>
                 </div>
             </div>
