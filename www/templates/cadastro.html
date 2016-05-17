@@ -1,0 +1,27 @@
+<ion-view style="" id="page1"  title="Cadastro">    
+    <ion-content class="has-header" padding="true">        
+        <form style="" class="list" ng-controller="cadastroCtrl" ng-submit="addUsuario()">
+            <label style="" name="email" class="item item-input">
+                <span class="input-label">Email</span>
+                <input placeholder="" type="text" ng-model="email">
+            </label>
+            <label style="" name="senha" class="item item-input">
+                <span class="input-label">Senha</span>
+                <input placeholder="" type="text" ng-model="senha">
+            </label>
+            <label style="" name="apelidio" class="item item-input">
+                <span class="input-label">Apelido</span>
+                <input placeholder="" type="text" ng-model="apelido">
+            </label>
+            <label style="" name="descricao" class="item item-input">
+                <span class="input-label">Descrição</span><textarea ng-model="descricao" placeholder=""> </textarea>
+            </label>  
+            <label style="" name="foto" class="item item-input">
+             <button type="button" class="button button-icon icon ion-camera" ng-click="takePhoto()"></button>
+             <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center; max-height: 20px">
+            </label>
+            
+             <button type="submit" class="button button-block button-dark" id="cadastro-button">Cadastrar</button>
+        </form>        
+    </ion-content>
+</ion-view>
