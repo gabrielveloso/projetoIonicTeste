@@ -5,7 +5,7 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
 
 
 .service('fb', function(){    
-    this.gerar = function(){
+    this.ref = function(){
         return new Firebase("https://projetonovo.firebaseio.com");
     };        
 })
@@ -14,7 +14,7 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
 .controller('cadastroCtrl',  function($scope, fb, $firebaseArray, $cordovaCamera) {
     
    // var fb = new Firebase("https://projetonovo.firebaseio.com"); 
-    var ref = fb.gerar();
+    var ref = fb.ref();
     
    $scope.register = function(username, password) {
         var fbAuth = $firebaseAuth(ref);
@@ -61,7 +61,7 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
     //var fb = new Firebase("https://projetonovo.firebaseio.com");
     
     $scope.login = function(username, password) {
-        var fbAuth = $firebaseAuth(fb.gerar());
+        var fbAuth = $firebaseAuth(fb.ref());
         fbAuth.$authWithPassword({
             email: username,
             password: password
@@ -79,17 +79,19 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
 })
    
 .controller('encontroCtrl', function($scope, fb, $firebaseArray) {    
-    $scope.dados = $firebaseArray(fb.gerar());
+    $scope.dados = $firebaseArray(fb.ref());
 
-     $scope.detalhar = function(perfil){
-       $scope.email = perfil.email;
-       $scope.teste = perfil.senha;
-    };
-    //$scope.dados.
 })
 
-.controller('perfilCtrl', function($scope) {
- 
-
+.controller('perfilCtrl', function($scope,fb, $firebaseArray, $stateParams) { 
+    var userId = $stateParams.pessoa; 
+    var dados = $firebaseArray(fb.ref());
+    dados.$loaded().then(function(dados) {
+        var pessoa = dados.$getRecord(userId);        
+        $scope.email = pessoa.email;
+        $scope.descricao = pessoa.descricao;
+        $scope.senha = pessoa.senha;
+    }); 
+    
 });
     

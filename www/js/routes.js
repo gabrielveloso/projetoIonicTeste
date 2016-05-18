@@ -50,7 +50,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.perfil', {
-    url: '/perfil',
+    url: '/perfil/:pessoa',
     views: {
       'side-menu21': {
         templateUrl: 'templates/perfil.html',

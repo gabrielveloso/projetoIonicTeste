@@ -6,7 +6,7 @@
         <div ng-repeat="dado in dados">
             <div class="row" ng-if="$even">              
                 <div class="col" class="card">
-                   <a class="item item-avatar"  href="#/menu/perfil" ng-click="detalhar(dado)">
+                   <a class="item item-avatar"  href="#/menu/perfil/{{dados[$index].$id}}">
                    <img src="{{dados[$index].foto}}">
                    <h2>{{dados[$index].apelido}}</h2>
                    <p>{{dados[$index].descricao}}</p>
