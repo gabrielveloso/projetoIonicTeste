@@ -58,6 +58,42 @@ angular.module('app.routes', [])
       }
     }
   })
+  .state('menu.chat', {
+    url: '/chat',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/chat.html',
+        controller: 'chatCtrl'
+      }
+    }
+  })
+  .state('menu.registrar', {
+    url: '/registrar',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/registrar.html',
+        controller: 'registrarCtrl'
+      }
+    }
+  })
+  .state('menu.perdeu', {
+    url: '/perdeu',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/perdeusenha.html',
+        controller: 'perdeuCtrl'
+      }
+    }
+  })
+  .state('menu.atualizar', {
+    url: '/atualizar',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/atualizarperfil.html',
+        controller: 'atualizarCtrl'
+      }
+    }
+  })
 
   .state('menu', {
     url: '/menu',

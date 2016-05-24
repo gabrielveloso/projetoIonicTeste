@@ -2,7 +2,7 @@
     <ion-content class="has-header" padding="true">
       <div class="list card">
         <div class="item item-body">
-            <img class="full-image" src="{{foto/100x100"}}>
+            <img class="full-image" src="{{foto}}">
             <h2 class="blue">{{senha}}</h2>
             <p>
              {{email}}
@@ -10,6 +10,13 @@
             <p>
              {{descricao}}
             </p>
+            
+            <button class="button button-stable" ng-click="abrirChat()">
+                <a href="#/menu/chat/">
+                    <i class="icon ion-email" h ></i>
+                </a>
+                
+            </button>
             
         </div>
       </div>
