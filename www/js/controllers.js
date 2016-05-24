@@ -103,7 +103,7 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
             email: username,
             password: password
         }).then(function(authData) {
-            $location.path("/cadastro");
+            $location.path("/menu/atualizar");
         }).catch(function(error) {
             console.error("ERROR: " + error);
         });
@@ -119,12 +119,29 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
     $scope.dados = $firebaseArray(fb.ref());    
 })
 
-.controller('chatCtrl', function($scope, fb, $firebaseArray) {    
-    $scope.dados = $firebaseArray(fb.ref());
+.controller('chatCtrl', function($scope, fb, $firebaseArray, $firebaseAuth, $firebaseObject,$rootScope) {    
+    var auth = $firebaseAuth(fb.ref());
+    var authData = auth.$getAuth();    
+    var chaveUsuario = authData.uid;       
+    var profileRef = fb.ref().child('profile').child(chaveUsuario).child("mensagens");
+    $scope.mensagens = $firebaseArray(profileRef);
+   
+    $rootScope.index = 0;
+
+    $scope.salvarMensagem = function(chat){
+        var auth = $firebaseAuth(fb.ref());
+        var authData = auth.$getAuth();
+
+        var msg = {
+          conteudo: chat.mensagem
+        };
+
+        fb.ref().child('profile').child(chaveUsuario).child("mensagens").child($rootScope.index++).set(msg);       
+    }
 
 })
 .controller('registrarCtrl', function($scope, fb, $firebaseAuth, $location, $firebaseArray) {  
-    var auth = $firebaseAuth(fb.ref())
+    var auth = $firebaseAuth(fb.ref());
     $scope.registrar = function(username, password) {
       return auth.$createUser({email: username, password: password})
       .then(function(authData) {
@@ -139,9 +156,26 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
     }
 
 })
-.controller('atualizarCtrl', function($scope, fb, $firebaseAuth, $location, $firebaseArray) {    
+.controller('atualizarCtrl', function($scope, fb, $firebaseAuth, $location, $firebaseArray,$firebaseObject) {    
     
     $scope.userdetails={};
+    var auth = $firebaseAuth(fb.ref());
+    var authData = auth.$getAuth();
+    var chaveUsuario = authData.uid;    
+    var profileRef = fb.ref().child('profile').child(chaveUsuario);
+    $scope.userdetails = $firebaseObject(profileRef);
+    console.log($scope.userdetails.apelido);
+    console.log($scope.userdetails);
+
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+      } else {
+        console.log('Synchronization succeeded');
+        $location.path("/menu/encontro");
+      }
+    };
+
     
     $scope.atualizarPerfil = function(){
         var auth = $firebaseAuth(fb.ref());
@@ -153,19 +187,27 @@ angular.module('app.controllers', ['firebase', 'ngCordova'])
           console.log("Logged out");
         }
         
-        var teste = fb.ref().child('profile').orderByChild('email').equalTo('bira@gmail.com');
-        $scope.dados = $firebaseArray(teste);
-        
-        var profileRef = $firebaseArray(fb.ref().child('profile'));
+        //var teste = fb.ref().child('profile').orderByChild('email').equalTo('bira@gmail.com');
+        //$scope.dados = $firebaseArray(teste);
+
         var profile = {
             id: authData.uid,
-            apelido: $scope.userdetails.nick,
-            descricao: $scope.userdetails.desc,
+            apelido: $scope.userdetails.apelido,
+            descricao: $scope.userdetails.descricao,
             registered_in: Date()
           };
-        return profileRef.set(profile).then(function(){
+
+        fb.ref().child('profile').child(authData.uid).set(profile, onComplete);
+        /*var profileRef = $firebaseArray(fb.ref().child('profile'));
+        var profile = {
+            id: authData.uid,
+            apelido: $scope.userdetails.apelido,
+            descricao: $scope.userdetails.descricao,
+            registered_in: Date()
+          };
+        return profileRef.$push(profile).then(function(){
             $location.path("/menu/encontro");
-        });
+        });*/
     }
     
 

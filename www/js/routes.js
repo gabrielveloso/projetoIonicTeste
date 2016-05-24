@@ -101,7 +101,7 @@ angular.module('app.routes', [])
     abstract:true
   });
 
-$urlRouterProvider.otherwise('/menu/cadastro');
+$urlRouterProvider.otherwise('/menu/login');
 
   
 
